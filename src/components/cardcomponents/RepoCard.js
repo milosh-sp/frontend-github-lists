@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Col, Row } from 'react-bootstrap'
+import { Card, Col, Row, Container, Badge } from 'react-bootstrap'
 
 const RepoCard = ({
   ownerImage,
@@ -12,33 +12,41 @@ const RepoCard = ({
 }) => {
   return (
     <>
-      <Card style={{ width: '100%' }}>
+      <Card style={{ width: '100%', marginBottom: '1%' }}>
         <Row>
           <Col sm={2} md={2} lg={2}>
-            <Card.Img
-              style={{ height: '100px', width: '100px' }}
-              variant="top"
-              src="holder.js/100px180?text=Image cap"
-            />
+            <Container style={{ marginTop: '20px' }}>
+              <Card.Img
+                style={{ height: '100px', width: '100px', border: 'solid' }}
+                variant="top"
+                src={ownerImage}
+              />
+            </Container>
           </Col>
+
           <Col>
             <Card.Body>
-              <Card.Title>{repoTitle}</Card.Title>
-              <Card.Text>{repoDes}</Card.Text>
+              <Card.Title>
+                <strong>{repoTitle}</strong>
+              </Card.Title>
+              <Card.Text>
+                {repoDes ? repoDes : 'NO REPOSITORY DESCRIPTION'}
+              </Card.Text>
               <Row>
                 <Col sm={2} md={2} lg={2}>
-                  <Card.Text style={{ borderStyle: 'solid' }}>
-                    Stars: {repoStars}
+                  <Card.Text>
+                    <Badge variant="warning">Stars: {repoStars}</Badge>
                   </Card.Text>
                 </Col>
                 <Col sm={2} md={2} lg={2}>
-                  <Card.Text style={{ borderStyle: 'solid' }}>
-                    Issues: {repoIssues}
+                  <Card.Text style={{}}>
+                    <Badge variant="danger">Issues: {repoIssues}</Badge>
                   </Card.Text>
                 </Col>
                 <Col>
                   <Card.Text>
-                    Submitted {repoSubTime} days ago by {ownerName}{' '}
+                    Submitted <strong>{repoSubTime}</strong> days ago by{' '}
+                    <strong>{ownerName}</strong>
                   </Card.Text>
                 </Col>
               </Row>
