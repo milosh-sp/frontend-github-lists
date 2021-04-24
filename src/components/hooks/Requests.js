@@ -2,36 +2,23 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 export const useAxiosGet = (url) => {
-  const [request, setRequest] = useState({
-    loading: false,
-    data: null,
-    error: false,
-  })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const [repos, setRepos] = useState([])
 
   useEffect(() => {
-    setRequest({
-      loading: true,
-      data: null,
-      error: false,
-    })
-
+    setLoading(true)
+    setError(false)
     axios
       .get(url)
-      .then((response) => {
-        setRequest({
-          loading: false,
-          data: response.data,
-          error: false,
-        })
+      .then((res) => {
+        setRepos((repos) => [...repos, ...res.data.items])
+        setLoading(false)
       })
-      .catch(() => {
-        setRequest({
-          loading: false,
-          data: null,
-          error: true,
-        })
+      .catch((err) => {
+        setError(true)
       })
   }, [url])
 
-  return request
+  return { loading, error, repos }
 }

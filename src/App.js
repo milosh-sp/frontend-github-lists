@@ -1,8 +1,8 @@
 import React from 'react'
-import UpperNavBar from './components/ui/UpperNavBar'
-
 import { Container } from 'react-bootstrap'
+
 import DataCardComponent from './components/DataCardComponent'
+import UpperNavBar from './components/ui/UpperNavBar'
 
 const App = () => {
   return (

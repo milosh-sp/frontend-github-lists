@@ -1,48 +1,58 @@
-import React from 'react'
+import { useState } from 'react'
 import { useAxiosGet } from './hooks/Requests'
 import RepoCard from './cardcomponents/RepoCard'
-import { Spinner } from 'react-bootstrap'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import moment from 'moment'
 
 const DataCardComponent = () => {
-  const url =
-    'https://api.github.com/search/repositories?q=created:%3E2021-03-23&sort=stars&order=desc&page=2'
+  const [page, setPage] = useState(1)
+
+  let dateFromNow = moment(moment().subtract(30, 'days')).format('YYYY-MM-DD')
+
+  const pageUrl = `https://api.github.com/search/repositories?q=created:%3E${dateFromNow}&sort=stars&order=desc&page=${page}`
 
   let content = null
 
-  let request = useAxiosGet(url)
+  let request = useAxiosGet(pageUrl)
 
-  if (request.data) {
-    content = request.data.items?.map((repo) => (
-      <RepoCard
-        ownerImage={repo.owner.avatar_url}
-        repoTitle={repo.name}
-        repoDes={repo.description}
-        repoStars={repo.stargazers_count}
-        repoIssues={repo.open_issues}
-        repoSubTime={repo.pushed_at}
-        ownerName={repo.owner.login}
-      />
-    ))
-  }
-
-  if (request.loading) {
+  if (request.repos) {
     content = (
-      <div className="text-center">
-        <Spinner
-          style={{ width: '10rem', height: '10rem', marginTop: '20rem' }}
-          animation="border"
-          role="status"
-        >
-          <span className="sr-only">Loading...</span>
-        </Spinner>
-      </div>
+      <InfiniteScroll
+        dataLength={request.repos.length}
+        next={() => setPage(page + 1)}
+        hasMore={true}
+        loader={
+          <div style={{ textAlign: 'center' }}>
+            <strong>Loading data...</strong>
+          </div>
+        }
+        endMessage={
+          <div style={{ textAlign: 'center' }}>
+            <div>You have reached the end of the page</div>
+          </div>
+        }
+      >
+        {request.repos.map((repo, key) => (
+          <RepoCard
+            key={key}
+            ownerImage={repo.owner.avatar_url}
+            repoTitle={repo.name}
+            repoDes={repo.description}
+            repoStars={repo.stargazers_count}
+            repoIssues={repo.open_issues}
+            repoSubTime={repo.created_at}
+            ownerName={repo.owner.login}
+          />
+        ))}
+      </InfiniteScroll>
     )
   }
 
   if (request.error) {
-    content = (
+    return (
       <div className="text-center h1">
-        Something went wrong or server offline please reload the page
+        Something went wrong or too many server requests or server is offline
+        please reload the page
       </div>
     )
   }

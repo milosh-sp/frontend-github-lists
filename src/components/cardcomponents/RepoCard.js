@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Col, Row, Container, Badge } from 'react-bootstrap'
+import moment from 'moment'
 
 const RepoCard = ({
   ownerImage,
@@ -10,6 +11,10 @@ const RepoCard = ({
   repoSubTime,
   ownerName,
 }) => {
+  let repoSubmitTime = moment(moment(repoSubTime.slice(0, 10), 'YYYY-MM-DD'))
+  let todayDate = moment(moment().startOf('day').format('YYYY-MM-DD'))
+
+  let days = todayDate.diff(repoSubmitTime, 'days')
   return (
     <>
       <Card style={{ width: '100%', marginBottom: '1%' }}>
@@ -23,14 +28,17 @@ const RepoCard = ({
               />
             </Container>
           </Col>
-
           <Col>
             <Card.Body>
               <Card.Title>
                 <strong>{repoTitle}</strong>
               </Card.Title>
               <Card.Text>
-                {repoDes ? repoDes : 'NO REPOSITORY DESCRIPTION'}
+                {repoDes ? (
+                  repoDes
+                ) : (
+                  <div style={{ color: 'red' }}>NO REPOSITORY DESCRIPTION</div>
+                )}
               </Card.Text>
               <Row>
                 <Col sm={2} md={2} lg={2}>
@@ -45,7 +53,9 @@ const RepoCard = ({
                 </Col>
                 <Col>
                   <Card.Text>
-                    Submitted <strong>{repoSubTime}</strong> days ago by{' '}
+                    Submitted{' '}
+                    <strong>{days === 0 ? (days = 'today') : days}</strong>
+                    {days === 'today' ? 'by ' : ' days ago by'}{' '}
                     <strong>{ownerName}</strong>
                   </Card.Text>
                 </Col>
