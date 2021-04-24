@@ -20,10 +20,12 @@ Frontend web application created with React.js to infinate scroll all the github
 ## Screenshots
 
 **Mozzila full screen screenshot**
-![Screenshot](docs/images/mozzilla.png)
+![Screenshot](docs/images/mozzilla.jpg)
+
+## Devices with smaller screen
 
 **iPhone X screenshot**
-![Screenshot](docs/images/iphonex.png)
+![Screenshot](docs/images/iphonex.jpg)
 
 **Android 7**
-![Screenshot](docs/images/android7.png)
+![Screenshot](docs/images/android7.jpg)
