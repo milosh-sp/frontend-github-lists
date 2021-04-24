@@ -10,6 +10,12 @@ Frontend web application created with React.js to infinate scroll all the github
 2. Use `npm install` to install all the dependencies
 3. Use `npm start` to run the project
 
+## How to run unit tests
+
+1. Clone the repository with `git clone https://github.com/PrintfvsCout/frontend-github-lists`
+2. Use `npm install` to install all the dependencies
+3. Use `npm test` to run the unit tests
+
 ## Libraries used
 
 - **React Bootstrap** - For easily creating and styling the components, all bootstrap components are responsive and customizable so this saves a lot of time for writing responsive CSS
